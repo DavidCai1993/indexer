@@ -4,10 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/valyala/fastjson"
 	"go.uber.org/zap"
 )
 
-const IdentityApiCount = 2
+const IdentityApiCount = 3
 
 func (f *fetcher) FetchIdentity(address string) (IdentityEntryList, error) {
 
@@ -20,7 +21,8 @@ func (f *fetcher) FetchIdentity(address string) (IdentityEntryList, error) {
 	// Superrare API
 	go f.processSuperrare(address, ch)
 	// Part 2 - Add other data source here
-	// TODO
+	// Twitter Sybil List
+	go f.processTwitterSybilList(address, ch)
 
 	// Final Part - Merge entry
 	for i := 0; i < IdentityApiCount; i++ {
@@ -183,4 +185,30 @@ func (f *fetcher) processSuperrare(address string, ch chan<- IdentityEntry) {
 	}
 
 	ch <- result
+}
+
+func (f *fetcher) processTwitterSybilList(address string, ch chan<- IdentityEntry) {
+	var result IdentityEntry
+
+	defer func() { ch <- result }()
+
+	body, err := sendRequest(f.httpClient, RequestArgs{
+		url:    TwitterSybilListUrl,
+		method: "GET",
+	})
+
+	if err != nil {
+		result.Err = err
+		result.Msg = "[processTwitterSybilList] fetch identity failed"
+		return
+	}
+
+	handle := fastjson.GetString(body, address, "twitter", "handle")
+
+	if len(handle) != 0 {
+		result.Twitter = &UserTwitterIdentity{
+			Handle:     handle,
+			DataSource: SYBIL,
+		}
+	}
 }

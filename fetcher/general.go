@@ -4,7 +4,7 @@ const (
 	RARIBLE    = "Rarible"
 	CONTEXT    = "Context"
 	CONVO      = "Convo"
-	TWITTER    = "Twtter"
+	TWITTER    = "Twitter"
 	OPENSEA    = "Opensea"
 	ZORA       = "Zora"
 	FOUNDATION = "Foundation"
@@ -28,6 +28,7 @@ const (
 	SuperrareUrl        = "https://superrare.com/api/v2/user?address=%s"
 	RaribleFollowingUrl = "https://api-mainnet.rarible.com/marketplace/api/v4/followings?owner=%s"
 	RaribleFollowerUrl  = "https://api-mainnet.rarible.com/marketplace/api/v4/followers?user=%s"
+	TwitterSybilListUrl = "https://raw.githubusercontent.com/Uniswap/sybil-list/master/verified.json"
 )
 
 type ConnectionEntryList struct {
