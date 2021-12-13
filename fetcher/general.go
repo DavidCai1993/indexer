@@ -12,6 +12,7 @@ const (
 	SYBIL      = "Sybil"
 	SUPERRARE  = "Superrare"
 	INFURA     = "Infura"
+	POAP       = "Poap"
 )
 
 const (
@@ -28,6 +29,8 @@ const (
 	SuperrareUrl        = "https://superrare.com/api/v2/user?address=%s"
 	RaribleFollowingUrl = "https://api-mainnet.rarible.com/marketplace/api/v4/followings?owner=%s"
 	RaribleFollowerUrl  = "https://api-mainnet.rarible.com/marketplace/api/v4/followers?user=%s"
+	PoapScanUrl         = "https://api.poap.xyz/actions/scan/%s"
+	PoapSubgraphUrl     = "https://api.thegraph.com/subgraphs/name/poap-xyz/poap"
 )
 
 type ConnectionEntryList struct {
@@ -50,6 +53,7 @@ type IdentityEntryList struct {
 	Zora       []UserZoraIdentity
 	Foundation []UserFoundationIdentity
 	Showtime   []UserShowtimeIdentity
+	Poap       []UserPoapIdentity
 	Ens        string
 }
 
@@ -63,6 +67,7 @@ type IdentityEntry struct {
 	Ens        *UserEnsIdentity
 	Foundation *UserFoundationIdentity
 	Showtime   *UserShowtimeIdentity
+	Poap       []UserPoapIdentity
 	Err        error
 	Msg        string
 }
@@ -145,6 +150,32 @@ type UserShowtimeIdentity struct {
 	OpenseaHandle    string
 	RaribleHandle    string
 	DataSource       string
+}
+
+type UserPoapIdentity struct {
+	Owner           string
+	EventID         int
+	EventDesc       string
+	TokenID         string
+	FancyID         string
+	EventName       string
+	EventUrl        string
+	ImageUrl        string
+	Country         string
+	City            string
+	Year            int
+	StartDate       string
+	EndDate         string
+	ExpiryDate      string
+	Supply          int
+	Recommendations []PoapRecommendation
+	DataSource      string
+}
+
+type PoapRecommendation struct {
+	Address string
+	TokenID string
+	EventID int
 }
 
 type RaribleConnectionResp struct {
