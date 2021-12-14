@@ -12,6 +12,7 @@ const (
 	SYBIL      = "Sybil"
 	SUPERRARE  = "Superrare"
 	INFURA     = "Infura"
+	ENS        = "ENS"
 )
 
 const (
@@ -26,8 +27,20 @@ const (
 const (
 	ContextUrl          = "https://context.app/api/profile/%s"
 	SuperrareUrl        = "https://superrare.com/api/v2/user?address=%s"
+	RaribleUrl          = "https://api-mainnet.rarible.com/marketplace/api/v4/users/%s"
 	RaribleFollowingUrl = "https://api-mainnet.rarible.com/marketplace/api/v4/followings?owner=%s"
 	RaribleFollowerUrl  = "https://api-mainnet.rarible.com/marketplace/api/v4/followers?user=%s"
+	EnsUrl              = "https://api.thegraph.com/subgraphs/name/ensdomains/ens"
+	FoundationUrl       = "https://hasura2.foundation.app/v1/graphql"
+	OpenSeaUrl          = "https://api.opensea.io/api/v1/account/%s"
+
+	// NOTE: To get more social media info, we fetch from the Showtime and Zora
+	// URLs that containing some hash value (they are the actual URLs the profile
+	// pages are using) instead of their open APIs and subgraphs,
+	// which means some manual hash updating is needed after regular CI
+	// tests failure.
+	ShowtimeUrl = "https://showtime.io/_next/data/Sm5FJTco3-PFeQEyPnwyB/%s.json"
+	ZoraUrl     = "https://d2ydi2tmw4j98m.cloudfront.net/user/batch?addresses=%s"
 )
 
 type ConnectionEntryList struct {
@@ -75,6 +88,7 @@ type UserTwitterIdentity struct {
 type UserRaribleIdentity struct {
 	Username        string
 	Homepage        string
+	Twitter         string
 	ItemSold        int
 	AmountSoldInEth float64
 	DataSource      string
@@ -130,6 +144,7 @@ type UserFoundationIdentity struct {
 type UserZoraIdentity struct {
 	Username   string
 	Website    string
+	Bio        string
 	DataSource string
 }
 
